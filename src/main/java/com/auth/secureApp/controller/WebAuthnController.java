@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpSession;
 
 
 
@@ -30,7 +29,8 @@ import com.auth.secureApp.repository.UserRepository;
 import com.auth.secureApp.repository.WebAuthnCredentialRepository;
 import com.webauthn4j.WebAuthnManager;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.Optional;
 

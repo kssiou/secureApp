@@ -7,14 +7,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import com.webauthn4j.WebAuthnManager;
-import com.webauthn4j.data.attestation.statement.COSEAlgorithmIdentifier;
-import com.webauthn4j.server.ServerProperty;
-
-
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.auth.secureApp.entity.RelyingParty;
 import com.webauthn4j.WebAuthnManager;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -23,8 +24,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .cors().and()  // Enable CORS
+            .csrf().disable()  // Disable CSRF for API endpoints
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/", "/home", "/register").permitAll()
+                .requestMatchers("/", "/home", "/register", "/webauthn/**").permitAll()  // Add webauthn endpoints
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
@@ -43,7 +46,22 @@ public class SecurityConfig {
         
         return http.build();
     }
-     @Bean
+    
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Collections.singletonList("*"));  // Allow all origins
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));  // Allow all methods
+        configuration.setAllowedHeaders(Collections.singletonList("*"));  // Allow all headers
+        configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"));
+        configuration.setAllowCredentials(false);  // Important: must be false when using "*" for origins
+        
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+    
+    @Bean
     public WebAuthnManager webAuthnManager() {
         return WebAuthnManager.createNonStrictWebAuthnManager();
     }
@@ -51,9 +69,9 @@ public class SecurityConfig {
     @Bean
     public RelyingParty relyingParty() {
         return new RelyingParty(
-            "example.com", // Use client's domain without https://
-            "Client App Name", 
-            "https://example.com" // Client's main domain
+            "localhost", // Just use localhost as the RP ID
+            "Passkey Auth Demo", 
+            "http://localhost:4200" // Your frontend URL
         );
     }
     @Bean
