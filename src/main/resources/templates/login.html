@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <!-- Ensure correct order: load WebAuthn.js first, then login.js -->
+    <script type="text/javascript" th:src="@{/js/webauthn.js}"></script>
+    <script type="text/javascript" th:src="@{/js/login.js}"></script>
+</head>
+<body>
+    <h1>Login</h1>
+    
+    <!-- Existing username/password form -->
+    <div class="login-form">
+        <h2>Login with Password</h2>
+        <form th:action="@{/login}" method="post">
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login with Password</button>
+        </form>
+    </div>
+    
+    <!-- New passkey option -->
+    <div class="passkey-form">
+        <h2>Login with Passkey</h2>
+        <button id="passkey-button" type="button">Use Passkey</button>
+        <div id="passkey-status"></div>
+    </div>
+    
+    <p>Don't have an account? <a th:href="@{/register}">Register</a></p>
+</body>
+</html>

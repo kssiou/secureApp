@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Access Denied - SecureApp</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="text-center">
+            <div class="alert alert-danger">
+                <h1 class="display-4">Access Denied</h1>
+                <p class="lead">Sorry, you don't have permission to access this page.</p>
+            </div>
+            
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.5.3/collection/components/icon/svg/alert-circle.svg" alt="Access Denied" style="width: 150px;" class="my-4">
+            
+            <div class="mt-4">
+                <p>Please check your account permissions or contact an administrator.</p>
+                <div class="mt-4">
+                    <a th:href="@{/}" class="btn btn-primary me-2">Go to Home</a>
+                    <a th:href="@{/dashboard}" class="btn btn-secondary">Go to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

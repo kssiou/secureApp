@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Home - SecureApp</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="jumbotron bg-light p-5 rounded">
+            <h1 class="display-4">Welcome to SecureApp!</h1>
+            <p class="lead">This is a demo Spring Security application with login and registration functionality.</p>
+            <hr class="my-4">
+            <p>Use the navigation above to login or register for an account.</p>
+            <div sec:authorize="!isAuthenticated()">
+                <a class="btn btn-primary btn-lg me-2" th:href="@{/login}" role="button">Login</a>
+                <a class="btn btn-success btn-lg" th:href="@{/register}" role="button">Register</a>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <a class="btn btn-primary btn-lg" th:href="@{/dashboard}" role="button">Go to Dashboard</a>
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title">Spring Security</h3>
+                        <p class="card-text">This application demonstrates form-based authentication with Spring Security.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title">Role-Based Access</h3>
+                        <p class="card-text">Different pages are accessible based on user roles, such as USER and ADMIN.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title">PostgreSQL Database</h3>
+                        <p class="card-text">User data is stored in a PostgreSQL database managed by Docker Compose.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

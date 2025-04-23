@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Dashboard - SecureApp</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h2 class="mb-0">User Dashboard</h2>
+            </div>
+            <div class="card-body">
+                <h4>Welcome to your dashboard, <span sec:authentication="name"></span>!</h4>
+                <p>Your role: <span sec:authentication="principal.authorities"></span></p>
+                
+                <div class="alert alert-info mt-4">
+                    <p>This is a protected page that requires authentication. Only logged-in users can access this page.</p>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-header">User Information</div>
+                            <div class="card-body">
+                                <p><strong>Username:</strong> <span sec:authentication="name"></span></p>
+                                <p><strong>Login Time:</strong> <span th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-header">Account Actions</div>
+                            <div class="card-body">
+                                <a href="#" class="btn btn-secondary mb-2 w-100">Edit Profile</a>
+                                <form th:action="@{/logout}" method="post">
+                                    <button type="submit" class="btn btn-danger w-100">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
